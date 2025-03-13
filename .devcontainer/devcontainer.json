@@ -1,0 +1,12 @@
+{
+  "name": "Basic Python",
+  "build": {
+    "dockerfile": "Containerfile",
+  },
+  "remoteUser": "dev",
+  "customizations": {
+    "jetbrains": {
+      "backend": "IntelliJ",
+    }
+  }
+}
