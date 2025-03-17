@@ -1,3 +1,9 @@
+# IDE
 .idea/
 *.iml
 
+# python
+.venv/
+
+# documentation
+**.obsidian/

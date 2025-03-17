@@ -1,0 +1,14 @@
+{
+  "name": "web",
+  "version": "0.0.1",
+  "description": "Minimal webpage for API calls",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Noah Lehmann",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.25.1"
+  }
+}

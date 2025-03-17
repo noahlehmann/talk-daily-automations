@@ -11,6 +11,9 @@ RUN apt update \
     && echo "${USER} ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/${USER} \
     && chmod 0440 /etc/sudoers.d/${USER}
 
-Run pip install --no-cache-dir ggshield # pre-commit hook
+RUN pip install --upgrade pip
 
+Run pip install --no-cache-dir ggshield # pre-commit hook
 Run ggshield install -m global
+
+RUN pip install -r src/api/requirements.txt
