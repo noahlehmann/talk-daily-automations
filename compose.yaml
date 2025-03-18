@@ -2,16 +2,18 @@ services:
   api:
     build:
       context: ./src/api
-      dockerfile: ./build/api/Containerfile
+      dockerfile: Containerfile
     environment:
-      DATABASE_URL: postgres://postgres:password@db:5432/db
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/db
+    depends_on:
+      - postgres
 
-  web:
-    build:
-      context: ./src/web
-      dockerfile: ./build/web/Containerfile
-    environment:
-      API_URL: http://api:3000
+  #web:
+  #  build:
+  #    context: ./src/web
+  #    dockerfile: ./build/web/Containerfile
+  #  environment:
+  #    API_URL: http://api:3000
 
   postgres:
     image: postgres:13
@@ -19,3 +21,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: db
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+
+volumes:
+  pg_data: {}

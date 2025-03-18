@@ -27,8 +27,6 @@ venv:
 	@if [ ! -d ".venv" ]; then \
     		echo "Creating virtual environment..."; \
     		python3 -m venv .venv; \
-    		echo "Activating virtual environment..."; \
-    		. .venv/bin/activate; \
     	else \
     		echo "Virtual environment already exists."; \
     	fi

@@ -1,0 +1,10 @@
+# sqllite db file
+instance/
+!instance/.gitkeep
+
+# migrations cache
+migrations/
+!migrations/versions/**
+!migrations/env.py
+!migrations/script.py.mako
+!migrations/alembic.ini
