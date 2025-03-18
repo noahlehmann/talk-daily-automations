@@ -1,0 +1,22 @@
+FROM node:20.9-alpine3.18 AS build
+
+WORKDIR /app
+COPY . .
+
+ARG ENV=production
+RUN cp config.${ENV}.js config.js
+
+RUN npm install \
+    && npm run build
+
+FROM nginx:1.27-alpine3.21
+
+ARG ENV=production
+COPY --from=build /app/dist/bundle.js   /usr/share/nginx/html/main.js
+COPY --from=build /app/config.${ENV}.js /usr/share/nginx/html/config.js
+COPY --from=build /app/index.html       /usr/share/nginx/html/index.html
+COPY --from=build /app/style.css        /usr/share/nginx/html/style.css
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

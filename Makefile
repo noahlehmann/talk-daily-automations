@@ -31,6 +31,15 @@ venv:
     		echo "Virtual environment already exists."; \
     	fi
 
+sqlite: .venv/bin/flask # todo!
+	@echo "Setting up the database..."
+	@if [ ! -f "src/api/instance/db.sqlite" ]; then \
+			echo "Creating database..."; \
+			.venv/bin/flask migrate; \
+		else \
+			echo "Database already exists."; \
+		fi
+
 # Build Docker
 slides: $(CONTAINERFILE) $(TEX_BASE)/
 	docker build --output type=local,dest=$(TEX_BASE)/$(PDF_NAME) --target pdf -f $(Containerfile) $(TEX_BASE)

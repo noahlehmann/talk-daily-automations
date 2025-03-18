@@ -4,6 +4,7 @@
   "description": "Minimal webpage for API calls",
   "main": "index.html",
   "scripts": {
+    "build": "esbuild main.js --bundle --outfile=dist/bundle.js --minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Noah Lehmann",
