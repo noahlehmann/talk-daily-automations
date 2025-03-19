@@ -16,10 +16,13 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Copy slides
+        run: cp slides/slides.pdf slides/out/slides.pdf
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'slides/slides.pdf'
+          path: 'slides/out'
 
       - name: Deploy to GitHub Pages
         id: deployment
