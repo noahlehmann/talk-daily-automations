@@ -17,7 +17,9 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Copy slides
-        run: cp slides/slides.pdf slides/out/slides.pdf
+        run: |
+          mkdir -p slides/out
+          cp slides/slides.pdf slides/out/slides.pdf
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
