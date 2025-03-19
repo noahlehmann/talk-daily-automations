@@ -1,0 +1,35 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    env:
+      GHCR_REPOSITORY: ghcr.io/noahlehmann/talk-daily-automations
+      WEB_PATH: src/web
+      API_PATH: src/api
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and Push Web Image
+        run: |
+          docker build -t ${{ env.GHCR_REPOSITORY }}/web:latest -f ${{ env.WEB_PATH }}/Containerfile ${{ env.WEB_PATH }} --build-arg ENV=production
+          docker push ${{ env.GHCR_REPOSITORY }}/web:latest
+
+      - name: Build and Push API Image
+        run: |
+          docker build -t ${{ env.GHCR_REPOSITORY }}/api:latest -f ${{ env.API_PATH }}/Containerfile ${{ env.API_PATH }}
+          docker push ${{ env.GHCR_REPOSITORY }}/api:latest
