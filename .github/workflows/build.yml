@@ -28,9 +28,13 @@ jobs:
       - name: Build and Push Web Image
         run: |
           docker build -t ${{ env.GHCR_REPOSITORY }}/web:${{ env.TAG_NAME }} -f ${{ env.WEB_PATH }}/Containerfile ${{ env.WEB_PATH }} --build-arg ENV=production
+          docker tag ${{ env.GHCR_REPOSITORY }}/web:${{ env.TAG_NAME }} ${{ env.GHCR_REPOSITORY }}/web:latest
           docker push ${{ env.GHCR_REPOSITORY }}/web:${{ env.TAG_NAME }}
+          docker push ${{ env.GHCR_REPOSITORY }}/web:latest
 
       - name: Build and Push API Image
         run: |
           docker build -t ${{ env.GHCR_REPOSITORY }}/api:${{ env.TAG_NAME }} -f ${{ env.API_PATH }}/Containerfile ${{ env.API_PATH }}
+          docker tag ${{ env.GHCR_REPOSITORY }}/api:${{ env.TAG_NAME }} ${{ env.GHCR_REPOSITORY }}/api:latest
           docker push ${{ env.GHCR_REPOSITORY }}/api:${{ env.TAG_NAME }}
+          docker push ${{ env.GHCR_REPOSITORY }}/api:latest
