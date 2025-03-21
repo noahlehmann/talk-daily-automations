@@ -42,7 +42,7 @@ lint_web:
   image: node:20-alpine
   script:
     - npm install -g eslint
-    - eslint npx eslint src/web/main.js src/web/config.*js --stats --exit-on-fatal-error
+    - npx eslint src/web/main.js src/web/config.*js --stats --exit-on-fatal-error
 
 build_helm:
   stage: build
