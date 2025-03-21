@@ -1,0 +1,11 @@
+apiVersion: v2
+name: counter
+description: A Helm chart for a dummy counter project
+type: application
+version: 0.0.1
+appVersion: "0.0.1"
+dependencies:
+  - name: postgresql
+    alias: postgres
+    repository: oci://registry-1.docker.io/bitnamicharts
+    version: 16.2.1

@@ -7,3 +7,8 @@
 
 # documentation
 **.obsidian/
+
+# deployent
+kubeconfig
+chart/counter/charts/*
+!chart/counter/charts/.gitkeep

@@ -2,8 +2,8 @@ name: Build and Push Docker Images
 
 on:
   push:
-    branches:
-      - deactivated
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build-and-push:
@@ -16,6 +16,7 @@ jobs:
       GHCR_REPOSITORY: ghcr.io/noahlehmann/talk-daily-automations
       WEB_PATH: src/web
       API_PATH: src/api
+      TAG_NAME: ${{ github.ref_name }}
 
     steps:
       - name: Checkout repository
@@ -26,10 +27,10 @@ jobs:
 
       - name: Build and Push Web Image
         run: |
-          docker build -t ${{ env.GHCR_REPOSITORY }}/web:latest -f ${{ env.WEB_PATH }}/Containerfile ${{ env.WEB_PATH }} --build-arg ENV=production
-          docker push ${{ env.GHCR_REPOSITORY }}/web:latest
+          docker build -t ${{ env.GHCR_REPOSITORY }}/web:${{ env.TAG_NAME }} -f ${{ env.WEB_PATH }}/Containerfile ${{ env.WEB_PATH }} --build-arg ENV=production
+          docker push ${{ env.GHCR_REPOSITORY }}/web:${{ env.TAG_NAME }}
 
       - name: Build and Push API Image
         run: |
-          docker build -t ${{ env.GHCR_REPOSITORY }}/api:latest -f ${{ env.API_PATH }}/Containerfile ${{ env.API_PATH }}
-          docker push ${{ env.GHCR_REPOSITORY }}/api:latest
+          docker build -t ${{ env.GHCR_REPOSITORY }}/api:${{ env.TAG_NAME }} -f ${{ env.API_PATH }}/Containerfile ${{ env.API_PATH }}
+          docker push ${{ env.GHCR_REPOSITORY }}/api:${{ env.TAG_NAME }}

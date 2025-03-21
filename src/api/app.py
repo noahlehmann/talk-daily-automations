@@ -37,6 +37,13 @@ def increment():
         response.headers.add('Access-Control-Allow-Origin', CORS_ALLOW_PATTERN)
     return response
 
+@app.route('/', methods=['GET'])
+def health():
+    response = jsonify({'message': 'OK'})
+    if ADD_CORS_ALLOW_ALL_HEADER:
+        response.headers.add('Access-Control-Allow-Origin', CORS_ALLOW_PATTERN)
+    return response
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)

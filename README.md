@@ -2,6 +2,10 @@
 
 A repository with examples and slides for showing off simple daily automations for IT professionals. 
 
+## Slides and script
+
+Check out the slides at https://noahlehmann.github.io/talk-daily-automations/slides.pdf!
+
 ## Setup
 
 ### Git hooks
@@ -30,3 +34,24 @@ This is assuming you have a free account at GitGuardian - if not, just set one u
 
 Now `ggshield` will automatically scan your changes for secrets before you commit them and fail the commit if it finds 
 anything, preventing the secrets to be published in the repository.
+
+## Deployment
+
+### Helm
+
+Test the install of your Helm chart by running ...
+
+```bash
+touch ./kubeconfig
+helm dependency update ./chart/counter
+```
+
+And then running ...
+
+```bash
+helm upgrade --install \
+  --kubeconfig ./kubeconfig \
+  --namespace fgils-1 \
+  counter-example ./chart/counter \
+  --set postgres.auth.password="replaceme" # replace
+```

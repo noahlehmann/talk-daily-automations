@@ -1,0 +1,92 @@
+nameOverride: "counter"
+fullnameOverride: "counter"
+
+web:
+  image:
+    repository: ghcr.io/noahlehmann/talk-daily-automations/web
+    pullPolicy: Always
+    tag: "latest"
+  podAnnotations: { }
+  service:
+    type: ClusterIP
+    port: 80
+  livenessProbe:
+    httpGet:
+      path: /
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /
+      port: http
+
+api:
+  image:
+    repository: ghcr.io/noahlehmann/talk-daily-automations/api
+    pullPolicy: Always
+    tag: "latest"
+  podAnnotations: {}
+  service:
+    type: ClusterIP
+    port: 8080
+  livenessProbe:
+    httpGet:
+      path: /
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /
+      port: http
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+
+ingress:
+  enabled: true
+  annotations: {}
+  secretName: fgils-ki-awz-iisys-de-tls
+  className: ""
+  hosts:
+    - host: fgils.ki-awz.iisys.de
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: counter-web
+              port:
+                number: 80
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: counter-api
+              port:
+                number: 8080
+  tls:
+    - secretName: fgils-ki-awz-iisys-de-tls
+      hosts:
+        - fgils.ki-awz.iisys.de
+
+# See https://artifacthub.io/packages/helm/bitnami/postgresql
+postgres:
+  image:
+    registry: docker.io
+    repository: bitnami/postgresql
+    tag: 17.2.0-debian-12-r0
+    pullPolicy: IfNotPresent
+  auth:
+    username: "counter"
+    password: "XXXXXXXXXX"
+    database: "counter"
+  architecture: standalone
+  containerPorts:
+    postgresql: 5432
+  shmVolume:
+    enabled: true
+    sizeLimit: ""
+  primary:
+    persistence:
+      storageClass: "freenas-nfs-api"
+      size: 5Gi
