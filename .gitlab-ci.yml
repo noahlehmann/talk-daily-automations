@@ -50,7 +50,8 @@ deploy_helm:
     - echo "Upgrading counter-example to version ${APP_VERSION} with image tag ${IMAGE_TAG}"
     - echo "Using chart counter-${APP_VERSION}.tgz"
     - >
-      helm upgrade --install counter-example ./counter-${APP_VERSION}.tgz
+      helm upgrade --install
+      counter-example ./counter-${APP_VERSION}.tgz
       --kubeconfig $KUBECONFIG 
       --namespace $KUBE_NAMESPACE
       --set api.image.repository="${IMAGE_REPOSITORY}/api"
