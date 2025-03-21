@@ -1,0 +1,50 @@
+---
+- name: Install Grafana OSS
+  hosts: "prometheus_local"
+  tasks:
+    - name: Install dependencies
+      ansible.builtin.apt:
+        name:
+          - apt-transport-https
+          - software-properties-common
+          - curl
+        state: present
+
+    - name: Create keyring directory
+      ansible.builtin.file:
+        path: "/etc/apt/keyrings"
+        state: directory
+
+    - name: Download Grafana GPG key
+      ansible.builtin.get_url:
+        url: "{{ grafana.deb.key_url }}"
+        dest: "{{ grafana.deb.tmp_key_file }}"
+        force: true
+        mode: 0644
+
+    - name: Dearmor GPG key
+      ansible.builtin.command:
+        cmd: "gpg --output {{ grafana.deb.key_file }} --dearmor {{ grafana.deb.tmp_key_file }}"
+        creates: "{{ grafana.deb.key_file }}"
+
+    - name: Add Grafana repository
+      ansible.builtin.apt_repository:
+        filename: "grafana"
+        repo: >
+          deb [signed-by={{ grafana.deb.key_file }}]
+          {{ grafana.deb.repository }} {{ grafana.deb.channel }}
+        state: present
+        update_cache: yes
+
+    - name: Install grafana
+      ansible.builtin.apt:
+        name: grafana
+        state: present
+
+    - name: Start grafana service
+      ansible.builtin.systemd_service:
+        daemon_reload: yes
+        name: grafana-server
+        state: started
+        enabled: true
+

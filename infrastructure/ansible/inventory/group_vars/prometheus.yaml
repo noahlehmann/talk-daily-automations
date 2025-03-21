@@ -1,0 +1,13 @@
+---
+prometheus:
+  locale: "en_US.UTF-8"
+  language: "en_US"
+
+grafana:
+  deb:
+    source_file_name: "grafana"
+    repository: "https://apt.grafana.com"
+    channel: "stable main"
+    tmp_key_file: "/tmp/grafana.key"
+    key_url: "https://apt.grafana.com/gpg.key"
+    key_file: "/etc/apt/keyrings/grafana.gpg"

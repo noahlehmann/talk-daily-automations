@@ -1,0 +1,9 @@
+---
+- name: Create LXC
+  ansible.builtin.import_playbook: create_lxc.yaml
+- name: Setup VM
+  ansible.builtin.import_playbook: setup_lxc.yaml
+- name: Install Prometheus
+  ansible.builtin.import_playbook: install_prometheus.yaml
+- name: Install Grafana
+  ansible.builtin.import_playbook: install_grafana.yaml

@@ -1,0 +1,51 @@
+---
+- name: Create standalone prometheus instance
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Create container
+      community.general.proxmox:
+        state: present
+        node: "{{ prometheus.pve_node }}"
+        api_user: "{{ pve.auth.user }}@{{ pve.auth.realm }}"
+        api_password: "{{ pve.auth.password }}"
+        api_host: "{{ pve.auth.api_host }}"
+        vmid: "{{ prometheus.vmid }}"
+        hostname: "{{ prometheus.hostname }}"
+        password: "{{ prometheus.password }}"
+        pubkey: "{{ ssh.pubkey }}"
+        disk: "{{ prometheus.storage }}:{{ prometheus.disk_size }}"
+        ostype: "{{ prometheus.ostype }}"
+        ostemplate: "{{ prometheus.ostemplate }}"
+        onboot: "{{ prometheus.onboot }}"
+        cores: "{{ prometheus.cores }}"
+        memory: "{{ prometheus.memory }}"
+        swap: "{{ prometheus.swap }}"
+        tags: "{{ prometheus.tags }}"
+        unprivileged: "{{ prometheus.unprivileged }}"
+        features: "{{ prometheus.features }}"
+        timezone: "{{ prometheus.timezone }}"
+        nameserver: "{{ net.nameservers[0] }}"
+        searchdomain: "{{ net.searchdomain }}"
+        netif: >
+          { "net0": "name=eth0,bridge=vmbr0,firewall=1,type=veth,gw={{ prometheus.gateway }},ip={{ prometheus.ip }}"}
+
+    - name: Start container
+      community.general.proxmox:
+        node: "{{ prometheus.pve_node }}"
+        api_user: "{{ pve.auth.user }}@{{ pve.auth.realm }}"
+        api_password: "{{ pve.auth.password }}"
+        api_host: "{{ pve.auth.api_host }}"
+        vmid: "{{ prometheus.vmid }}"
+        state: started
+
+    - name: Create initial snapshot with bare root-fs
+      community.general.proxmox_snap:
+        api_user: "{{ pve.auth.user }}@{{ pve.auth.realm }}"
+        api_password: "{{ pve.auth.password }}"
+        api_host: "{{ pve.auth.api_host }}"
+        vmid: "{{ prometheus.vmid }}"
+        snapname: "{{ prometheus.snapshot.name }}"
+        description: "{{ prometheus.snapshot.description }}"
+        state: present
+        vmstate: false

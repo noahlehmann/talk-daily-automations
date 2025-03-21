@@ -1,0 +1,12 @@
+---
+# Needs the following on macOS as ansible source:
+# See https://github.com/prometheus-community/ansible/issues/186#issuecomment-1679425448
+# brew install gnu-tar
+# See https://github.com/ansible/ansible/issues/76322#issuecomment-974147955
+# export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+- name: Install prometheus and grafana
+  hosts: "prometheus_local"
+  roles:
+    - role: prometheus.prometheus.prometheus
+      vars:
+        prometheus_config_file: "templates/prometheus.yaml"

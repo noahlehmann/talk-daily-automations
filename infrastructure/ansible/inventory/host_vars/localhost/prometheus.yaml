@@ -1,0 +1,29 @@
+---
+prometheus:
+  pve_node: "pve-fg-ils"
+  vmid: 1001
+  hostname: "prometheus"
+  tags: ["debian", "ansible", "prometheus"]
+  password: !vault |
+    $ANSIBLE_VAULT;1.1;AES256
+    61386134336138646664376535336162313334333964306364646439353734343038613733633461
+    3435373534326232303964623638383732316561353036620a326263653639363535643065633833
+    64646561643966353832636362653634376239636162386131313061396462613361316537633561
+    3937643063383264610a616535306333316330626132336132313838646235353566633137363735
+    3132
+  storage: "local-lvm"
+  disk_size: "20"
+  ostype: "debian"
+  ostemplate: "local:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst"
+  onboot: true
+  cores: 2
+  memory: 4096
+  swap: 0
+  unprivileged: true
+  features: [ "nesting=1" ]
+  timezone: "Europe/Berlin"
+  gateway: "10.90.40.254"
+  ip: "10.90.40.21/24"
+  snapshot:
+    name: "initial-bare-root-fs"
+    description: "Initial snapshot with bare root-fs (Ansible)"
