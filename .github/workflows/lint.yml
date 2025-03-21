@@ -21,10 +21,10 @@ jobs:
           python-version: "3.13"
 
       - name: Install ruff
-        run: pip install ruff
+        run: pip install ruff==0.11.1
 
       - name: Run ruff
-        run: ruff src/api/test_app.py
+        run: ruff check src/api/test_app.py
 
   lint-js:
     runs-on: ubuntu-latest
