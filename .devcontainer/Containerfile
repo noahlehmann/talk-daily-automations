@@ -4,7 +4,7 @@ ARG USER=dev
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt update \
-    && apt install -y --no-install-recommends sudo git \
+    && apt install -y --no-install-recommends sudo git make \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m -s /usr/bin/bash ${USER} \
@@ -13,7 +13,7 @@ RUN apt update \
 
 RUN pip install --upgrade pip
 
-Run pip install --no-cache-dir ggshield # pre-commit hook
-Run ggshield install -m global
+RUN pip install --no-cache-dir ggshield # pre-commit hook
+RUN ggshield install -m global
 
-RUN pip install -r src/api/requirements.txt
+#RUN make init
